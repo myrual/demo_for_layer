@@ -7,32 +7,65 @@ import gtk
 
 class HellowFromGlade:
     def __init__(self):
-        self.gladefile = "demo_for_layer.glade"
-        self.gtkbuilder = gtk.Builder()
-        self.gtkbuilder.add_from_file(self.gladefile)
-        self.window = self.gtkbuilder.get_object("window1")
-        self.Btn_Nav = self.gtkbuilder.get_object("button_nav")
-        self.Btn_Nav.connect("clicked", self.Button_Nav, "pressed")
-        self.Btn_Message = self.gtkbuilder.get_object("button_message")
-        self.Btn_Message.connect("clicked", self.Button_Message, "pressed")
-        self.Btn_NearBy = self.gtkbuilder.get_object("button_nearby")
-        self.Btn_NearBy.connect("clicked", self.Button_Near, "pressed")
-        self.Btn_Change = self.gtkbuilder.get_object("button_changeSetting")
-        self.Btn_Change.connect("clicked", self.Button_changed, "pressed")
+
+        self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+        self.window.set_border_width(10)
+
         self.ContentBox = gtk.Layout()
         self.ContentBox.show()
-        self.MainMenuBox = self.gtkbuilder.get_object("Main_hbox")
-        self.MainMenuBox.pack_start(self.ContentBox, True, True, 0)
+        self.window.add(self.ContentBox)
+
+        #insert Box_entry for first menu user see
+        self.Box_Entry = gtk.HBox(False, 0)
+        self.Box_Entry.show()
+        self.ContentBox.put(self.Box_Entry, 1, 1)
+        #Menu button is an separate box
+        self.Box_MainMenuButton = gtk.VBox(False, 0)
+        self.Box_MainMenuButton.show()
+        #First information after power on 
+        self.Box_MainMenuInfor = gtk.VBox(False, 0)
+        self.Box_MainMenuInfor.show()
+
+        self.Box_Entry.pack_start(self.Box_MainMenuButton, True, True, 0)
+        self.Box_Entry.pack_start(self.Box_MainMenuInfor, True, True, 0)
 
 
+        self.Btn_Nav = gtk.Button("button_nav")
+        self.Btn_Nav.connect("clicked", self.Button_Nav, "pressed")
+        self.Btn_Nav.show()
+
+        self.Btn_Message = gtk.Button("button_message")
+        self.Btn_Message.connect("clicked", self.Button_Message, "pressed")
+        self.Btn_Message.show()
+
+        self.Btn_NearBy = gtk.Button("button_nearby")
+        self.Btn_NearBy.connect("clicked", self.Button_Near, "pressed")
+        self.Btn_NearBy.show()
+
+        self.Btn_Change = gtk.Button("button_changeSetting")
+        self.Btn_Change.connect("clicked", self.Button_changed, "pressed")
+        self.Btn_Change.show()
+
+        self.Box_MainMenuButton.pack_start(self.Btn_Nav, True, True, 0)
+        self.Box_MainMenuButton.pack_start(self.Btn_Message, True, True, 0)
+        self.Box_MainMenuButton.pack_start(self.Btn_NearBy, True, True, 0)
+        self.Box_MainMenuButton.pack_start(self.Btn_Change, True, True, 0)
 
         #init all SubMenu box here
         self.NavBox = gtk.Button("Nav box")
         self.MessageBox = gtk.Button("message box")
         self.NearByBox = gtk.Button("Nearby box")
         self.SettingBox = gtk.Button("Setting")
+        for i in (self.NavBox, self.MessageBox, self.NearByBox, self.SettingBox):
+            i.connect("clicked", self.BackToMainEntry, "pressed")
+            self.ContentBox.put(i, 1, 1)
+        return
+    def BackToMainEntry(self, widget, data):
+        self.HideAllBox()
+        self.Box_Entry.show()
         return
     def HideAllBox(self):
+        self.Box_Entry.hide()
         self.NavBox.hide()
         self.MessageBox.hide()
         self.NearByBox.hide()
@@ -42,26 +75,22 @@ class HellowFromGlade:
     def Button_Nav(self, widget, data):
         self.HideAllBox()
         self.NavBox.show()
-        self.ContentBox.put(self.NavBox, 0, 0)
         print "You pressed Nav button"
         return
 
     def Button_Message(self, widget, data):
         self.HideAllBox()
         self.MessageBox.show()
-        self.ContentBox.put(self.MessageBox, 0, 30)
         print "You want to see message"
         return
     def Button_changed(self, widget, data):
         self.HideAllBox()
         self.SettingBox.show()
-        self.ContentBox.put(self.SettingBox, 30, 0)
         print "Play video, audio, fm, online radio, podcast"
         return
     def Button_Near(self, widget, data):
         self.HideAllBox()
         self.NearByBox.show()
-        self.ContentBox.put(self.NearByBox, 30, 30)
         print "Play video, audio, fm, online radio, podcast"
         return       
 if __name__ == "__main__":
