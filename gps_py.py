@@ -1,4 +1,4 @@
-#	Project Name	:	Visual Python IDE for 2.6#	Date	        :	13-12-2009#	Author		    :	macrocoders team#	Contact		    :	macrocoders@gmail.com#	Web			    :	http://visualpython.org#	Python Ver.     :	2.6# -*- coding: utf-8 -*-from Tkinter import *from tkMessageBox import *# -- Do not change. You may experience problems with the design file. -- #
+#	Project Name	:	Visual Python IDE for 2.6#	Date	        :	13-12-2009#	Author		    :	macrocoders team#	Contact		    :	macrocoders@gmail.com#	Web			    :	http://visualpython.org#	Python Ver.     :	2.6# -*- coding: utf-8 -*-# -- Do not change. You may experience problems with the design file. -- #
 #
 # -*- coding: UTF-8 -*-
 import pygtk
@@ -55,41 +55,36 @@ class HellowFromGlade:
         self.NavBox = gtk.Button("Nav box")
         self.MessageBox = gtk.Button("message box")
         self.NearByBox = gtk.Button("Nearby box")
-        self.SettingBox = gtk.Button("Setting")
+        self.SettingBox = gtk.Button("Setting")        self.BtnBackToMain = gtk.Button("Back to main")        self.BtnBackToMain.connect("clicked", self.BackToMainEntry, "home")        self.ContentBox.put(self.BtnBackToMain, 1, 1)
         for i in (self.NavBox, self.MessageBox, self.NearByBox, self.SettingBox):
             i.connect("clicked", self.BackToMainEntry, "pressed")
-            self.ContentBox.put(i, 1, 1)
+            self.ContentBox.put(i, 1, 30)
         return
     def BackToMainEntry(self, widget, data):
-        self.HideAllBox()
+        self.HideAllBox()        self.BtnBackToMain.hide()
         self.Box_Entry.show()
         return
-    def HideAllBox(self):
-        self.Box_Entry.hide()
-        self.NavBox.hide()
-        self.MessageBox.hide()
-        self.NearByBox.hide()
-        self.SettingBox.hide()
+    def HideAllBox(self):        for i in (self.Box_Entry, self.NavBox, self.MessageBox, self.NearByBox, self.SettingBox):            i.hide()
         return
 
     def Button_Nav(self, widget, data):
-        self.HideAllBox()
+        self.HideAllBox()        self.BtnBackToMain.show()
         self.NavBox.show()
         print "You pressed Nav button"
         return
 
     def Button_Message(self, widget, data):
         self.HideAllBox()
-        self.MessageBox.show()
+        self.BtnBackToMain.show()        self.MessageBox.show()
         print "You want to see message"
         return
     def Button_changed(self, widget, data):
-        self.HideAllBox()
+        self.HideAllBox()        self.BtnBackToMain.show()
         self.SettingBox.show()
         print "Play video, audio, fm, online radio, podcast"
         return
     def Button_Near(self, widget, data):
-        self.HideAllBox()
+        self.HideAllBox()        self.BtnBackToMain.show()
         self.NearByBox.show()
         print "Play video, audio, fm, online radio, podcast"
         return       
