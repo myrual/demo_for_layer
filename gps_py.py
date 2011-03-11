@@ -97,7 +97,7 @@ class StartFromWeather:
         
         Home_Next = gtk.HBox()
         HomeBtn = gtk.Button("Go HomeMenu")
-        SkipBtn = gtk.Button("Skip Weather")
+        SkipBtn = gtk.Button("Go PhoneSyncing")
         
         SkipBtn.connect("clicked", self.SkipInWeather, "weather")
         HomeBtn.connect("clicked", self.GoHomeMenu, "Weather")
@@ -114,7 +114,7 @@ class StartFromWeather:
         self.Phone.pack_start(FindingPhone, True, True, 1)
         Btn = gtk.HBox()
         HomeBtn =  gtk.Button("Go homeMenu")
-        SkipBtn = gtk.Button("Skip syning phone")
+        SkipBtn = gtk.Button("Go Nav")
         SkipBtn.connect("clicked", self.SkipInPhoneSyn, "Phone")
         HomeBtn.connect("clicked", self.GoHomeMenu, "Inphone")
         Btn.pack_start(HomeBtn, True,True,1)
