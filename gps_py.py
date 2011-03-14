@@ -63,6 +63,16 @@ class HelloNoteBook:
         self.window.show()
         return
 class StartFromWeather:
+    def MakeWeatherInforBox(self, title, min, max):
+        wbox = gtk.VBox()
+        title_label = gtk.Label(title)
+        wbox.pack_start(title_label, True, True, 1)
+        min_degree = gtk.Label(min)
+        wbox.pack_start(min_degree, True, True, 1)
+        max_degree = gtk.Label(max)
+        wbox.pack_start(max_degree, True, True, 1)
+        wbox.show_all()
+        return wbox
     def __init__(self):
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         self.window.set_border_width(10)
@@ -83,11 +93,11 @@ class StartFromWeather:
         
         weather_info = gtk.HBox()
         weather_info.show_all()
-        today = gtk.Label("today")
+        today = self.MakeWeatherInforBox("today", "-1", "10")
         #today.show()
-        tomorrow = gtk.Label("tommorow")
+        tomorrow = self.MakeWeatherInforBox("tomorrow", "1", "11")
         tomorrow.show()
-        theday_aftertmo = gtk.Label("the day after tomorrow")
+        theday_aftertmo = self.MakeWeatherInforBox("Houtain", "-1", "10")
         theday_aftertmo.show()
         weather_info.pack_start(today, True, True, 1)
         weather_info.pack_start(tomorrow, True, True, 1)
