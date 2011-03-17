@@ -1,15 +1,3 @@
-#	Project Name	:	Visual Python IDE for 2.6
-#	Date	        :	13-12-2009
-#	Author		    :	macrocoders team
-#	Contact		    :	macrocoders@gmail.com
-#	Web			    :	http://visualpython.org
-#	Python Ver.     :	2.6
-
-# -*- coding: utf-8 -*-
-
-
-# -- Do not change. You may experience problems with the design file. -- #
-#
 # -*- coding: UTF-8 -*-
 import pygtk
 pygtk.require('2.0')
@@ -63,14 +51,18 @@ class HelloNoteBook:
         self.window.show()
         return
 class StartFromWeather:
-    def MakeWeatherInforBox(self, title, min, max):
+    def MakeWeatherInforBox(self, title, min, max, pic = None):
         wbox = gtk.VBox()
         title_label = gtk.Label(title)
         wbox.pack_start(title_label, True, True, 1)
-        min_degree = gtk.Label(min)
+        min_degree = gtk.Label(min+"C" + " ~ " + max+"C")
         wbox.pack_start(min_degree, True, True, 1)
-        max_degree = gtk.Label(max)
-        wbox.pack_start(max_degree, True, True, 1)
+        if(pic <> None):
+            weather_pic = gtk.Image()
+            weather_pic.set_from_file(pic)
+            wbox.pack_start(weather_pic, True, True, 1)
+        #max_degree = gtk.Label(max)
+        #wbox.pack_start(max_degree, True, True, 1)
         wbox.show_all()
         return wbox
     def __init__(self):
@@ -87,17 +79,17 @@ class StartFromWeather:
 
 
         
-        title = gtk.Label("Weather forcast")
+        title = gtk.Label("天气预报")
         title.show()
         self.weather.pack_start(title, True, True, 0)
         
         weather_info = gtk.HBox()
         weather_info.show_all()
-        today = self.MakeWeatherInforBox("today", "-1", "10")
+        today = self.MakeWeatherInforBox("今天", "-1", "10", "sunny.gif")
         #today.show()
-        tomorrow = self.MakeWeatherInforBox("tomorrow", "1", "11")
+        tomorrow = self.MakeWeatherInforBox("明天", "1", "11", "heavyrain.gif")
         tomorrow.show()
-        theday_aftertmo = self.MakeWeatherInforBox("Houtain", "-1", "10")
+        theday_aftertmo = self.MakeWeatherInforBox("后天", "-1", "10", "cloudy.gif")
         theday_aftertmo.show()
         weather_info.pack_start(today, True, True, 1)
         weather_info.pack_start(tomorrow, True, True, 1)
