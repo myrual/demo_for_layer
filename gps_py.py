@@ -65,6 +65,16 @@ class StartFromWeather:
         #wbox.pack_start(max_degree, True, True, 1)
         wbox.show_all()
         return wbox
+    def MakeButton(self, title, pic):
+        wbox = gtk.VBox()
+        intitle = gtk.Label(title)
+        inpic = gtk.Image()
+        inpic.set_from_file(pic)
+        
+        wbox.pack_start(intitle, True, True, 1)
+        wbox.pack_start(inpic, True, True, 1)
+        wbox.show_all()
+        return wbox
     def __init__(self):
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         self.window.set_border_width(10)
@@ -98,8 +108,8 @@ class StartFromWeather:
         self.weather.pack_start(weather_info, True, True, 1)
         
         Home_Next = gtk.HBox()
-        HomeBtn = gtk.Button("Go HomeMenu")
-        SkipBtn = gtk.Button("Go PhoneSyncing")
+        HomeBtn = gtk.Button("主界面")
+        SkipBtn = gtk.Button("下一步")
         
         SkipBtn.connect("clicked", self.SkipInWeather, "weather")
         HomeBtn.connect("clicked", self.GoHomeMenu, "Weather")
@@ -112,11 +122,11 @@ class StartFromWeather:
         
         #blue tooth sync
         self.Phone = gtk.VBox()
-        FindingPhone = gtk.Label("Finding your phone")
+        FindingPhone = gtk.Label("正在同步电话")
         self.Phone.pack_start(FindingPhone, True, True, 1)
         Btn = gtk.HBox()
-        HomeBtn =  gtk.Button("Go homeMenu")
-        SkipBtn = gtk.Button("Go Nav")
+        HomeBtn =  gtk.Button("主界面")
+        SkipBtn = gtk.Button("下一步")
         SkipBtn.connect("clicked", self.SkipInPhoneSyn, "Phone")
         HomeBtn.connect("clicked", self.GoHomeMenu, "Inphone")
         Btn.pack_start(HomeBtn, True,True,1)
@@ -128,11 +138,11 @@ class StartFromWeather:
         
         #driving box
         self.Nav = gtk.VBox()
-        NavTitle = gtk.Label("Starting Navigation")
+        NavTitle = gtk.Label("开始导航")
         Btn = gtk.HBox()
-        HomeBtn =  gtk.Button("Go homeMenu")
+        HomeBtn =  gtk.Button("主界面")
         HomeBtn.connect("clicked", self.GoHomeMenu, "Inphone")
-        SkipBtn = gtk.Button("Skip syning phone")
+        SkipBtn = gtk.Button("暂停")
         #SkipBtn.connect("clicked", self.SkipInPhoneSyn, "Phone")
         Btn.pack_start(HomeBtn, True,True,1)
         Btn.pack_start(SkipBtn, True, True, 1)
@@ -143,23 +153,33 @@ class StartFromWeather:
         SkipBtn.connect("clicked", self.SkipInNav, "inNav")
         
         self.MainMenu = gtk.VBox()
-        MainTitle = gtk.Label("Main menu")
-        MainBox = gtk.HBox()
-        MainBox.show_all()
+        MainTitle = gtk.Label("主界面")
+        MainBoxUp = gtk.HBox()
+        MainBoxUp.show_all()
+
+        MainBoxDown = gtk.HBox()
+        MainBoxDown.show_all()
         
-        WeatherBtn = gtk.Button("Weather")
+        WeatherBtn = gtk.Button("天气预报")
         WeatherBtn.connect("clicked", self.ShowWeather, "Weather")
-        PhoneBtn = gtk.Button("Phone")
+        
+        SettingBtn = gtk.Button("设置")
+        PhoneBtn = gtk.Button()
+        dis = self.MakeButton("电话", "phone.gif")
+        PhoneBtn.add(dis)
         PhoneBtn.connect("clicked", self.ShowPhone, "Phone")
-        NavBtn = gtk.Button("Nav")
+        NavBtn = gtk.Button()
+        dis = self.MakeButton("导航", "nav.jpg")
+        NavBtn.add(dis)
+        #NavBtn.set_image("nav.jpg")
         NavBtn.connect("clicked", self.ShowNav, "Nav")
         
-        MainBox.pack_start(WeatherBtn, True, True, 1)
-        MainBox.pack_start(PhoneBtn, True, True, 1)
-        MainBox.pack_start(NavBtn, True, True, 1)
-        
-        self.MainMenu.pack_start(MainTitle, True, True, 1)       
-        self.MainMenu.pack_start(MainBox, True, True, 1)
+        MainBoxDown.pack_start(WeatherBtn, True, True, 1)
+        MainBoxDown.pack_start(SettingBtn, True, True, 1)        
+        MainBoxUp.pack_start(NavBtn, True, True, 1)
+        MainBoxUp.pack_start(PhoneBtn, True, True, 1)
+        self.MainMenu.pack_start(MainBoxUp, True, True, 1)       
+        self.MainMenu.pack_start(MainBoxDown, True, True, 1)
 
         self.MainMenu.show_all()
         
