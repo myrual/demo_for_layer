@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 import pygtk
 pygtk.require('2.0')
+import pywapi
 import gtk
 
 
@@ -65,6 +66,18 @@ class StartFromWeather:
         #wbox.pack_start(max_degree, True, True, 1)
         wbox.show_all()
         return wbox
+    def MakeWeatherInfoBox_Realtime(self, time):
+        wbox = gtk.VBox()
+        realtimeinfo = self.ExtractWeatherForButtonLabel(time)
+        title_label = gtk.Label(realtimeinfo['time'])
+        wbox.pack_start(title_label, True, True, 1)
+        unicodelabel = realtimeinfo['low'] +"C" + " ~ " + realtimeinfo['high']+"C"
+        min_degree = gtk.Label(unicodelabel)
+        wbox.pack_start(min_degree, True, True, 1)
+        #max_degree = gtk.Label(max)
+        #wbox.pack_start(max_degree, True, True, 1)
+        wbox.show_all()
+        return wbox        
     def MakeButton(self, title, pic):
         wbox = gtk.VBox()
         intitle = gtk.Label(title)
@@ -75,6 +88,23 @@ class StartFromWeather:
         wbox.pack_start(inpic, True, True, 1)
         wbox.show_all()
         return wbox
+    def GetWeather(self, city = 'tianjin', country = 'china'):
+        self.google_result = pywapi.get_weather_from_google(city, country)
+    def GetWeather_Current(self, city = 'tianjin', country='china'):
+        self.current_conditions = self.google_result['current_conditions']
+        self.currentdegree = self.current_conditions['temp_c']
+        return
+    def ExtractWeatherForButtonLabel(self, day):
+        weatherinfo = self.weather_forecast[day]
+        low = weatherinfo['low']
+        high = weatherinfo['high']
+        time = weatherinfo['day_of_week']
+        
+        return {'low':low, 'high':high, 'time':time}
+    def GetWeather_forecast(self):
+        self.weather_forecast = self.google_result['forecasts']
+    def GetCurrentTemperature(self):
+        return self.currentdegree
     def __init__(self):
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         self.window.set_border_width(10)
@@ -92,14 +122,18 @@ class StartFromWeather:
         title = gtk.Label("天气预报")
         title.show()
         self.weather.pack_start(title, True, True, 0)
-        
+        self.GetWeather('tianjin')
+        self.GetWeather_forecast()
         weather_info = gtk.HBox()
         weather_info.show_all()
-        today = self.MakeWeatherInforBox("今天", "-1", "10", "sunny.gif")
+        #today = self.MakeWeatherInforBox("今天", "-1", "10", "sunny.gif")
+        today = self.MakeWeatherInfoBox_Realtime(0)
         #today.show()
-        tomorrow = self.MakeWeatherInforBox("明天", "1", "11", "heavyrain.gif")
+        #tomorrow = self.MakeWeatherInforBox("明天", "1", "11", "heavyrain.gif")
+        tomorrow =self.MakeWeatherInfoBox_Realtime(1)
         tomorrow.show()
-        theday_aftertmo = self.MakeWeatherInforBox("后天", "-1", "10", "cloudy.gif")
+        #theday_aftertmo = self.MakeWeatherInforBox("后天", "-1", "10", "cloudy.gif")
+        theday_aftertmo = self.MakeWeatherInfoBox_Realtime(2)
         theday_aftertmo.show()
         weather_info.pack_start(today, True, True, 1)
         weather_info.pack_start(tomorrow, True, True, 1)
@@ -153,6 +187,7 @@ class StartFromWeather:
         SkipBtn.connect("clicked", self.SkipInNav, "inNav")
         
         self.MainMenu = gtk.VBox()
+        self.GetWeather_Current('tianjn')
         MainTitle = gtk.Label("主界面")
         MainBoxUp = gtk.HBox()
         MainBoxUp.show_all()
@@ -161,7 +196,8 @@ class StartFromWeather:
         MainBoxDown.show_all()
         
         WeatherBtn = gtk.Button()
-        dis = self.MakeButton("天气预报", "sunny.gif")
+        dis = self.MakeButton("当前温度："+self.GetCurrentTemperature(), "sunny.gif")
+        #dis = self.MakeWeatherInforBox("今天", "-1", "10", "sunny.gif")
         WeatherBtn.add(dis)
         WeatherBtn.connect("clicked", self.ShowWeather, "Weather")
         
