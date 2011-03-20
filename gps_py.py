@@ -160,10 +160,14 @@ class StartFromWeather:
         MainBoxDown = gtk.HBox()
         MainBoxDown.show_all()
         
-        WeatherBtn = gtk.Button("天气预报")
+        WeatherBtn = gtk.Button()
+        dis = self.MakeButton("天气预报", "sunny.gif")
+        WeatherBtn.add(dis)
         WeatherBtn.connect("clicked", self.ShowWeather, "Weather")
         
-        SettingBtn = gtk.Button("设置")
+        SettingBtn = gtk.Button()
+        dis = self.MakeButton("更改设置", "Settings.png")
+        SettingBtn.add(dis)
         PhoneBtn = gtk.Button()
         dis = self.MakeButton("电话", "phone.gif")
         PhoneBtn.add(dis)
