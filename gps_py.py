@@ -89,15 +89,17 @@ class StartFromWeather:
         wbox.show_all()
         return wbox
     def GetWeather(self, city = 'tianjin', country = 'china'):
-        self.google_result = pywapi.get_weather_from_google(city, country)
+        self.google_result = pywapi.get_weather_from_google(city)
     def GetWeather_Current(self, city = 'tianjin', country='china'):
         self.current_conditions = self.google_result['current_conditions']
         self.currentdegree = self.current_conditions['temp_c']
         return
+    def ChangeTempF2C(self, degree):
+        return str((int(degree)-32)*5/9.00)[0:3]
     def ExtractWeatherForButtonLabel(self, day):
         weatherinfo = self.weather_forecast[day]
-        low = weatherinfo['low']
-        high = weatherinfo['high']
+        low = self.ChangeTempF2C(weatherinfo['low'])
+        high = self.ChangeTempF2C(weatherinfo['high'])
         time = weatherinfo['day_of_week']
         
         return {'low':low, 'high':high, 'time':time}
@@ -105,7 +107,7 @@ class StartFromWeather:
         self.weather_forecast = self.google_result['forecasts']
     def GetCurrentTemperature(self):
         return self.currentdegree
-    def __init__(self):
+    def __init__(self, city='tianjin'):
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         self.window.set_border_width(10)
 
@@ -119,10 +121,10 @@ class StartFromWeather:
 
 
         
-        title = gtk.Label("天气预报")
+        title = gtk.Label("天气预报：" + city)
         title.show()
         self.weather.pack_start(title, True, True, 0)
-        self.GetWeather('tianjin')
+        self.GetWeather(city)
         self.GetWeather_forecast()
         weather_info = gtk.HBox()
         weather_info.show_all()
@@ -187,7 +189,7 @@ class StartFromWeather:
         SkipBtn.connect("clicked", self.SkipInNav, "inNav")
         
         self.MainMenu = gtk.VBox()
-        self.GetWeather_Current('tianjn')
+        self.GetWeather_Current(city)
         MainTitle = gtk.Label("主界面")
         MainBoxUp = gtk.HBox()
         MainBoxUp.show_all()
@@ -361,7 +363,7 @@ class HellowFromGlade:
         print "Play video, audio, fm, online radio, podcast"
         return       
 if __name__ == "__main__":
-    tuto = StartFromWeather()
+    tuto = StartFromWeather('tianjin')
     tuto.window.show()
     gtk.main()
 #Do not change spaces! description page is here#
